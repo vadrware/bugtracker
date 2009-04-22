@@ -57,7 +57,6 @@ mkdir ~/vadrware; cd ~/vadrware
 git clone git://github.com/vadrware/bugtracker.git
 
 # edit ~/vadrware/bugtracker/settings.py and set DATABASE_PASSWORD = '<password>',
-# I didn't want to upload Adam's password to a public git repository
 
 # create a symbolic link to your bugtracker installation (this is a hack so that you don't have to modify config paths with your user folder)
 sudo ln -s ~/vadrware /var/www/vadrware
