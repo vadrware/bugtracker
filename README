@@ -1,5 +1,6 @@
 Application server stack installation instructions:
 
+
 # install oracle client (if you don't have it already installed)
 sudo echo 'deb http://oss.oracle.com/debian unstable main non-free' >> /etc/apt/sources.list
 sudo apt-get update
