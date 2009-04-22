@@ -1,0 +1,96 @@
+Application server stack installation instructions:
+
+# install oracle client (if you don't have it already installed)
+sudo echo 'deb http://oss.oracle.com/debian unstable main non-free' >> /etc/apt/sources.list
+sudo apt-get update
+sudo aptitude install oracle-xe-client
+export ORACLE_HOME="/usr/lib/oracle/xe/app/oracle/product/10.2.0/client/"
+sudo mkdir -p $ORACLE_HOME/network/admin
+sudo vi $ORACLE_HOME/network/admin/tnsnames.ora
+
+# paste the following into tnsnames.ora:
+<your database>
+
+# now you have to configure the oracle client to properly set environment variables when you log in
+# log into your normal user you typically develop under
+vi ~/.profile
+
+# paste the following at the end of your .profile:
+if [ -e /usr/lib/oracle/xe/app/oracle/product/10.2.0/client/bin/oracle_env.sh ]
+then
+    source /usr/lib/oracle/xe/app/oracle/product/10.2.0/client/bin/oracle_env.sh
+fi
+
+# edit the first line of nls_lang.sh and change #!/bin/sh to #!/bin/bash
+sudo vi /usr/lib/oracle/xe/app/oracle/product/10.2.0/client/bin/nls_lang.sh
+:s/sh/bash/
+:wq
+# save the file and exit
+
+# now when you log in, you should be able to use sqlplus to connect to Adam's oracle account.
+sudo su - $USER
+sqlplus user@database
+
+# install python 2.5
+sudo aptitude install python python-dev python-setuptools
+python --version
+# make sure it says 2.5.x
+
+# install cx_Oracle (python oracle interface)
+sudo -E easy_install cx_Oracle
+
+# install django
+wget http://www.djangoproject.com/download/1.0.2/tarball/
+tar zxvf Django-1.0.2-final.tar.gz
+cd Django-1.0.2-final
+sudo python setup.py install
+
+#
+# install git, configure git, and import project code from github
+#
+sudo aptitude install git-core
+git config --global user.name "Your Name"
+git config --global user.email your@email.com
+
+# import project code from github
+mkdir ~/vadrware; cd ~/vadrware 
+git clone git://github.com/vadrware/bugtracker.git
+
+# edit ~/vadrware/bugtracker/settings.py and set DATABASE_PASSWORD = '<password>',
+# I didn't want to upload Adam's password to a public git repository
+
+# create a symbolic link to your bugtracker installation (this is a hack so that you don't have to modify config paths with your user folder)
+sudo ln -s ~/vadrware /var/www/vadrware
+
+#
+# now configure apache to run bugtracker (optionally you can use a simple http server bundled with django instead if setting up apache is too much of a pain - see below)
+#
+
+# install apache httpd if you don't already have it, and mod_wsgi for apache
+sudo aptitude install apache2 libapache2-mod-wsgi
+
+# add oracle environment variables to apache environment
+sudo echo "export ORACLE_HOME=/usr/lib/oracle/xe/app/oracle/product/10.2.0/client" >> /etc/apache2/envvars
+sudo echo "export LD_LIBRARY_PATH=/usr/lib/oracle/xe/app/oracle/product/10.2.0/client/lib" >> /etc/apache2/envvars
+
+# now you have to edit apache configuration file
+sudo vi /etc/apache2/sites-available/default
+# and add the following under VirtualHost directive: 
+WSGIScriptAlias /bugtracker /var/www/vadrware/bugtracker/bugtracker.wsgi
+
+# restart apache
+sudo /etc/init.d/apache2 restart
+
+# test run the application
+# open up a web browser and head to http://localhost/bugtracker, you should be redirected to a login page
+
+#
+# if apache setup is too painful, use
+#
+cd ~/vadrware/bugtracker
+python manage.py runserver
+# head over to http://localhost:8000/ to test the application
+
+# done!
+
+
