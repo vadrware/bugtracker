@@ -39,5 +39,5 @@ urlpatterns = patterns('',
     (r'^resolutions', include('bugtracker.core.urls.resolutions')),
 
     (r'^$', login_required(object_list), 
-        dict(queryset = Defect.objects.all(), paginate_by = 30)),
+        dict(queryset = Defect.objects.all(), paginate_by = 15)),
 )
