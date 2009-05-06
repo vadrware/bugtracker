@@ -3,18 +3,18 @@ from django import forms
 from django.contrib.auth.models import User
 from time import strftime
 
-# Create your models here.
+#
+# application core models
+#
+
+# additional variables associated with user, this links up with django.contrib.auth.models.User
 class UserProfile (models.Model):
 	userid = models.ForeignKey( User, unique = True )
-	username = models.CharField( "Username", max_length = 50 )
-	password = models.CharField( "Password", max_length = 50 )
 	firstname = models.CharField( "First Name", max_length = 30 )
 	lastname = models.CharField( "Last Name", max_length = 30 )
 	active = models.BooleanField( "Active" ) 
 
-class UserRole (models.Model):
-	description = models.CharField( "Role Name", max_length = 50 )
-
+# product model
 class Product (models.Model):
     name = models.CharField( "Product Name", max_length = 100 )
     currentversion = models.IntegerField( "Current Product Version" )
@@ -25,11 +25,13 @@ class Product (models.Model):
     def get_absolute_url(self):
         return "/%s/%s/%s" % ('products', 'detail', self.pk);
 
+# useraccess model, ties users to products to configure which users have access to mess with tickets for which products
+# currently not used
 class UserAccess (models.Model):
 	userid = models.ForeignKey( User )
-	userroleid = models.ForeignKey( UserRole )
 	productid = models.ForeignKey( Product )
 
+# defect resolution model
 class Resolution (models.Model):
     name = models.CharField( "Resolution", max_length = 30 )
 
@@ -39,11 +41,12 @@ class Resolution (models.Model):
     def get_absolute_url(self):
         return "/%s/%s/%s" % ('resolutions', 'detail', self.pk);
 
+# defect model
 class Defect (models.Model):
     defect_states = (
                 ( u'O', u'Open' ),
                 ( u'P', u'Pending' ),
-                ( u'V', u'Verifid' ),
+                ( u'V', u'Verified' ),
                 ( u'C', u'Closed' )
         )
     productid = models.ForeignKey( Product, verbose_name = "Product" )
@@ -66,18 +69,18 @@ class Defect (models.Model):
 
     def get_absolute_url(self):
         return "/%s/%s/%s" % ('defects', 'detail', self.pk);
-
-class Comment (models.Model):
-	userid = models.ForeignKey( User )
-	defectid = models.ForeignKey( Defect )
-	postdate = models.DateTimeField( "Post Date" )
-	description = models.TextField( "Comment Text" )
 	
+# duplicates model, links defect with other related defects
+# currently not used
 class Duplicates (models.Model):
 	originaldefectid = models.ForeignKey( Defect, related_name = "Original Defect" )
 	duplicatedefectid = models.ForeignKey( Defect, related_name = "Duplicate Defect" )
 
+#
 # ModelForm classes
+#
+
+# customize how defect forms render
 class DefectForm(forms.ModelForm):
     postdate = forms.DateTimeField( required = False, widget = forms.HiddenInput() )
     moddate = forms.DateTimeField( required = False, widget = forms.HiddenInput() )

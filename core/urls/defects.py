@@ -5,7 +5,7 @@ from django.views.generic.list_detail import *
 
 urlpatterns = patterns('',
     (r'^/$', login_required(object_list), 
-        dict(queryset = Defect.objects.all(), paginate_by = 30)),
+        dict(queryset = Defect.objects.all(), paginate_by = 15)),
     (r'^/detail/(?P<object_id>\d+)/?$', login_required(object_detail), 
         dict(queryset = Defect.objects.all())),
     (r'^/create/?$', 'django.views.generic.create_update.create_object', 

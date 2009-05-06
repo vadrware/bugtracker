@@ -78,6 +78,11 @@ div.login-form {
 	position: relative;
 }
 
+p.object-list-pagination {
+    text-align:center;
+    margin-top:10px;
+}
+
 .clearing, .clear {
 	clear: both;
 }
@@ -784,10 +789,6 @@ div.view div.view_container fieldset ul li span.text_area {
 	position:relative;
 	padding-bottom:15px;
 	text-align:justify;
-
-    white-space: pre-wrap;
-    white-space: -pre-wrap;
-    white-space: -o-pre-wrap;
     word-wrap: break-word;
 }
 

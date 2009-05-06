@@ -15,7 +15,7 @@
                 <legend class="primary first">Defect Information</legend>
 			    <ul>
                     <li><label>Defect Number:</label><span>{{ object.pk }}</span><div class="vd" /></li>
-                    <li><label>Reproduction Steps:</label><span>{{ object.reproduce }}</span><div class="vd" /></li>
+                    <li><label>Reproduction Steps:</label><span class="text_area">{{ object.reproduce }}</span><div class="vd" /></li>
                     <li><label>Created By:</label><span>{{ object.userid }}</span><div class="vd" /></li>
                     <li><label>Post Date:</label><span>{{ object.postdate }}</span><div class="vd" /></li>
                     <li><label>Modified Date:</label><span>{{ object.moddate }}</span></li>
@@ -58,8 +58,12 @@
                 {% for comment in comment_list %}
 			    <ul>
                     <li><label>Comment #{{ forloop.counter }}:</label>
-                        <span class="text_area">{{ comment.user_name|escape }} on {{ comment.submit_date|date:"F j, Y" }} at {{ comment.submit_date|date:"P" }} writes: 
-                        <p style="margin-top:10px">{{ comment.comment|escape|urlizetrunc:"40"|linebreaks }}</p></span>
+                        <span class="text_area">{{ comment.user_name|escape }} &lt;<a href="mailto:{{ comment.user_email|escape }}">{{ comment.user_email|escape }}</a>&gt; on {{ comment.submit_date|date:"F j, Y" }} at {{ comment.submit_date|date:"P" }}: 
+                        <p style="margin-top:10px">{{ comment.comment|escape|urlizetrunc:"40"|linebreaks }}</p>
+                        {% if comment.user_url %}
+                            <p style="margin-top:10px">Link: <a href="{{ comment.user_url }}">{{ comment.user_url|escape }}</a></p>
+                        {% endif %}
+                        </span>
                         {% ifnotequal forloop.counter comment_count %}
                             <div class="vd" />
                         {% endifnotequal %}

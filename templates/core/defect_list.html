@@ -8,13 +8,14 @@
 <div class="object-list-menu">
 	<a href="/defects/create/"><img title="Create Defect" src="/app_media/images/icons/application_form_add.png" /></a>
 </div>
+
 <table class="object-list-table">
 	<tr>
 		<th>Menu</th>
 		<th>Defect #</th>
         <th>Product</th>
         <th>Product Version</th>
-        <th>Reproduction Steps</th>
+        <th width="200">Reproduction Steps</th>
         <th>State</th>
         <th>Resolution</th>
 	</tr>
@@ -32,10 +33,23 @@
 		<td>{{ object.productid }}</td>
 		<td>{{ object.projectversion }}</td>
 		<td>{{ object.reproduce }}</td>
-		<td>{{ object.get_defectstate_displaytitle }}</td>
+		<td>{{ object.get_defectstate_display }}</td>
 		<td>{{ object.resolutionid }}</td>
 	</tr>	
 	{% endfor %}
 </table>
+
+<p class="object-list-pagination">
+	{% if has_previous %}
+		<a href="?page={{ previous }}">Previous</a> | 
+	{% endif %}
+	
+	Page {{ page }} of {{ pages }} 
+	
+	{% if has_next %}
+		| <a href="?page={{ next }}">Next</a>
+	{% endif %}
+</p>
+
 
 {% endblock %}

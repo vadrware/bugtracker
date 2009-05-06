@@ -30,4 +30,16 @@
 	{% endfor %}
 </table>
 
+<p class="object-list-pagination">
+	{% if has_previous %}
+		<a href="?page={{ previous }}">Previous</a> | 
+	{% endif %}
+	
+	Page {{ page }} of {{ pages }} 
+	
+	{% if has_next %}
+		| <a href="?page={{ next }}">Next</a>
+	{% endif %}
+</p>
+
 {% endblock %}

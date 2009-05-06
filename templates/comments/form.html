@@ -9,7 +9,9 @@
     {% else %}
       <li
         {% if field.errors %} class="error"{% endif %}
-        {% ifequal field.name "honeypot" %} style="display:none;"{% endifequal %}>
+        {% ifequal field.name "honeypot" %} style="display:none;"{% endifequal %}
+        {% ifequal field.name "name" %} style="display:none;"{% endifequal %}
+        {% ifequal field.name "email" %} style="display:none;"{% endifequal %}>
         {% if field.errors %}{{ field.errors }}{% endif %}
         {{ field.label_tag }} {{ field }}
       </li>
