@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block section %}Defects{% endblock %}
+
+{% block title %}
+    {% if object %}
+	    Update Defect: #{{ object.pk }}
+    {% else %}
+	    Create Defect
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+
+    {% if object %}
+	    <p class="title">Update Defect: #{{ object.pk }}</p>
+    {% else %}
+	    <p class="title">Create Defect</p>
+    {% endif %}
+
+    {% if form.has_errors %}
+        <h2>Please correct the following error{{ form.errors|pluralize }}:</h2>
+    {% endif %}
+
+    <div class='styled'>
+    <form class="styled validate" method="POST" action="">
+        <fieldset>
+    	    <legend class="primary first">Defect Information</legend>
+            <ul>
+    		    {{ form.as_ul }}
+            </ul>
+        </fieldset>
+        <div class="submit">
+            <p class="submit-buttons">
+                <input type="reset" name="reset" value="Undo" />
+		        <input type="submit" name="submit" value="Submit" />            	
+            </p>
+        </div>
+    </form>
+    </div>
+
+    <!--
+	    <p>{{ form.error_dict }}</p>
+    -->
+
+{% endblock %}

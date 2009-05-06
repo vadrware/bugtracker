@@ -1,0 +1,27 @@
+{% load comments i18n %}
+<form class="styled validate" action="{% comment_form_target %}" method="post"> 
+        <fieldset>
+    	    <legend class="primary first">Post a comment</legend>
+    <ul>
+  {% for field in form %}
+    {% if field.is_hidden %}
+      {{ field }}
+    {% else %}
+      <li
+        {% if field.errors %} class="error"{% endif %}
+        {% ifequal field.name "honeypot" %} style="display:none;"{% endifequal %}>
+        {% if field.errors %}{{ field.errors }}{% endif %}
+        {{ field.label_tag }} {{ field }}
+      </li>
+    {% endif %}
+  {% endfor %}
+    </ul>
+        </fieldset>
+        <div class="submit">
+            <p class="submit-buttons">
+                <input type="submit" name="post" class="submit-post" value="{% trans "Post" %}" />
+                <input type="submit" name="preview" class="submit-preview" value="{% trans "Preview" %}" />    	
+            </p>
+        </div>
+        <input type="hidden" name="next" value="{{ object.get_absolute_url }}" />
+</form>

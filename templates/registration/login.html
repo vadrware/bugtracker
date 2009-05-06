@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block section %}Bugtracker{% endblock %}
+{% block title %}Please Login{% endblock %}
+
+{% block content %}
+
+<div class="login-form">
+	{% if form.errors %}
+	<p style="color:red;margin-bottom:20px;">Your username and password did not match. Please try again.</p>
+	{% endif %}
+
+	<form method="post" action="{% url django.contrib.auth.views.login %}">
+	<table>
+	<tr>
+	    <td>{{ form.username.label_tag }}:</td>
+	    <td>{{ form.username }}</td>
+	</tr>
+	<tr>
+	    <td>{{ form.password.label_tag }}:</td>
+	    <td>{{ form.password }}</td>
+	</tr>
+	<tr>
+		<td colspan="2" align="center">
+			<p style="padding: 10px 0px 2px;">
+				<input type="submit" value="Login" />
+				<input type="hidden" name="next" value="{{ next }}" />
+			</p>
+		</td>
+	</tr>
+	</table>
+	</form>
+</div>
+
+{% endblock %}
+

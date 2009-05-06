@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+	<title>VADRware Bugtracker</title>
+
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta http-equiv="Content-Language" content="en" />
+	<meta http-equiv="Pragma" content="no-cache" />
+
+	<meta name="description" content="Bugtracker" />
+
+	<meta name="copyright" content="VADRware" />
+	<meta name="author" content="VADRware" />
+	<meta name="keywords" content="VADRware, bugtrack" />
+	<meta name="robots" content="noindex, nofollow" />
+
+	<link rel="SHORTCUT ICON" href="/favicon.ico" />
+	<link rel="stylesheet" type="text/css" href="/app_media/css/base.css" media="all" />
+</head>
+<body>
+<div id="canvas">    
+    <div id="page">
+
+        <div id="header">
+            <h1 class="logo"><a href="/" class="notext"><span>VADRWare</span></a></h1>
+            <span id="apptitle">Bug Tracker</span>
+
+        <div id="navbar" class="glass">
+            <div class="caps">
+                <div class="left"></div>
+                <div class="right"></div>
+            </div>
+            <div class="fill">
+		{% if user.is_authenticated %}
+                <ul class="left">
+                    <li id="developer-menu" class="hasMenu">
+                       <a href="/defects" class=""><span class="text">Defects</span></a>
+                    </li>
+                    <li id="developer-menu" class="hasMenu">
+                       <a href="/products" class=""><span class="text">Products</span></a>
+                    </li>
+                    <li id="developer-menu" class="hasMenu">
+                       <a href="/resolutions" class=""><span class="text">Resolutions</span></a>
+                    </li>              
+                    {% if user.is_superuser %}                                          
+                        <li id="developer-menu" class="hasMenu">
+                           <a href="/admin/auth/" class=""><span class="text">Users</span></a>
+                        </li>
+                    {% endif %}
+                </ul>
+		{% endif %}
+                <ul class="right">
+		{% if user.is_authenticated %}
+                    <li><a href="/accounts/">Logged in as [{{ user.username }}]</a></li>
+                    <li><a href="/accounts/logout">Logout</a></li>
+		{% else %}
+                    <li><a href="/accounts/login">Login</a></li>			
+		{% endif %}
+                </ul>
+            </div>
+        </ul>
+        </div>
+        <div id="body">
+            <div class="header glass">
+
+                <div class="caps">
+                    <div class="left"></div>
+                    <div class="right"></div>
+                </div>
+                <div class="fill">
+                    <h2 class="left"><a href="..">{% block section %}{% endblock %}</a></h2>
+                                        <h3 class="left"><span class="bullet"></span>{% block title %}{% endblock %}</h3>
+                </div>
+
+            </div>
+                        <div class="content">
+                <div class="corners top">
+                    <div class="left"></div>
+                    <div class="right"></div>
+                </div>
+                <div class="corners bottom">
+                    <div class="left"></div>
+                    <div class="right"></div>
+
+                </div>
+                <div class="sides">
+                    <div class="left"></div>
+                    <div class="right"></div>
+                </div>
+                <div id="content_area" class="inner_canvas">
+
+		{% block content %}{% endblock %}
+
+	
+		<div class="clear"></div>
+                </div>
+            </div>
+            <div class="footer">
+
+                <div class="caps">
+                    <div class="left"></div>
+                    <div class="right"></div>
+                </div>
+                <div class="fill"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Javascript placed at the end to improve page load performance -->
+<script type="text/javascript" src="/app_media/js/jquery.js"></script>
+<script type="text/javascript" src="/app_media/js/jquery.dimensions.pack.js"></script>
+<script type="text/javascript" src="/app_media/js/jquery.tooltip.pack.js"></script>
+<script type="text/javascript" src="/app_media/js/base.js"></script>
+
+</body>
+</html>

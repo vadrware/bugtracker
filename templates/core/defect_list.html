@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block section %}Defects{% endblock %}
+{% block title %}Manage Defects{% endblock %}
+
+{% block content %}
+
+<div class="object-list-menu">
+	<a href="/defects/create/"><img title="Create Defect" src="/app_media/images/icons/application_form_add.png" /></a>
+</div>
+<table class="object-list-table">
+	<tr>
+		<th>Menu</th>
+		<th>Defect #</th>
+        <th>Product</th>
+        <th>Product Version</th>
+        <th>Reproduction Steps</th>
+        <th>State</th>
+        <th>Resolution</th>
+	</tr>
+
+	{% for object in object_list %}
+	<tr>
+		<td class="object-list-item-menu-td">
+			<span class="object-list-item-menu">
+				<a href="/defects/detail/{{ object.pk }}"><img title="View Details" src="/app_media/images/icons/application_form_magnify.png" /></a>
+                <a href="/defects/update/{{ object.pk }}"><img title="Update" src="/app_media/images/icons/application_form_edit.png" /></a>
+                <a href="/defects/delete/{{ object.pk }}"><img title="Delete" src="/app_media/images/icons/application_form_delete.png" /></a>
+			</span>
+		</td>
+		<td><a href="/defects/detail/{{ object.pk }}">{{ object.pk }}</a></td>
+		<td>{{ object.productid }}</td>
+		<td>{{ object.projectversion }}</td>
+		<td>{{ object.reproduce }}</td>
+		<td>{{ object.get_defectstate_displaytitle }}</td>
+		<td>{{ object.resolutionid }}</td>
+	</tr>	
+	{% endfor %}
+</table>
+
+{% endblock %}

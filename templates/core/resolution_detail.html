@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block section %}Resolutions{% endblock %}
+{% block title %}Resolution Detail: {{ object.name }}{% endblock %}
+
+{% block content %}
+
+	<p class="title">Resolution Detail: {{ object.name }}</p>
+	<div class="view">
+        <div class="view_container" name="objectView" id="objectView">
+  
+            <fieldset>
+                <legend class="primary first">Resolution Information</legend>
+			    <ul>
+                    <li><label>Resolution Name:</label><span>{{ object.name }}</span></li>
+		        </ul>
+	        </fieldset> 	
+	        
+            <div class="actions">
+                <p class="action-links">
+                    <a href="../create">Create Resolution</a> | <a href="../update/{{ object.pk }}">Update Resolution</a> | <a href="..">List Resoultions</a>
+                </p>
+            </div>
+
+    	</div>
+	</div>
+
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block section %}Products{% endblock %}
+{% block title %}Manage Products{% endblock %}
+
+{% block content %}
+
+<div class="object-list-menu">
+	<a href="create/"><img title="Create Product" src="/app_media/images/icons/application_form_add.png" /></a>
+</div>
+<table class="object-list-table">
+	<tr>
+		<th>Menu</th>
+		<th>Product</th>
+        <th>Current Version</th>
+	</tr>
+
+	{% for object in object_list %}
+	<tr>
+		<td class="object-list-item-menu-td">
+			<span class="object-list-item-menu">
+				<a href="detail/{{ object.pk }}"><img title="View Details" src="/app_media/images/icons/application_form_magnify.png" /></a>
+                <a href="update/{{ object.pk }}"><img title="Update" src="/app_media/images/icons/application_form_edit.png" /></a>
+                <a href="delete/{{ object.pk }}"><img title="Delete" src="/app_media/images/icons/application_form_delete.png" /></a>
+			</span>
+		</td>
+		<td><a href="detail/{{ object.pk }}">{{ object.name }}</a></td>
+        <td>{{ object.currentversion }}</td>
+	</tr>	
+	{% endfor %}
+</table>
+
+{% endblock %}

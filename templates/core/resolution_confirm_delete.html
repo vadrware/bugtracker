@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %} - Resolutions - Confirm Delete{% endblock %}
+
+{% block content %}
+
+{{ object }}
+
+<form method="POST" action="">
+	<p>Are you sure that you want to delete this?</p>
+	<input type="submit">
+</form>
+
+{% endblock %}

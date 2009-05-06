@@ -12,7 +12,7 @@ MANAGERS = ADMINS
 DATABASE_ENGINE = 'oracle'           # 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
 DATABASE_NAME = 'adamsora'           # Or path to database file if using sqlite3.
 DATABASE_USER = 'akadzban'           # Not used with sqlite3.
-DATABASE_PASSWORD = ''        # Not used with sqlite3.
+DATABASE_PASSWORD = 'adam123'        # Not used with sqlite3.
 DATABASE_HOST = ''                   # Set to empty string for localhost. Not used with sqlite3.
 DATABASE_PORT = ''                   # Set to empty string for default. Not used with sqlite3.
 
@@ -35,12 +35,12 @@ USE_I18N = True
 
 # Absolute path to the directory that holds media.
 # Example: "/home/media/media.lawrence.com/"
-MEDIA_ROOT = ''
+MEDIA_ROOT = '/var/www/vadrware/bugtracker/app_media'
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
 # Examples: "http://media.lawrence.com", "http://example.com/media/"
-MEDIA_URL = ''
+MEDIA_URL = '/app_media/'
 
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
 # trailing slash.
@@ -65,10 +65,17 @@ MIDDLEWARE_CLASSES = (
 
 ROOT_URLCONF = 'bugtracker.urls'
 
+STATIC_DOC_ROOT = '/var/www/vadrware/bugtracker/app_media'
+
+LOGIN_REDIRECT_URL = '/defects'
+
+AUTH_PROFILE_MODULE = 'core.UserProfile'
+
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+    '/var/www/vadrware/bugtracker/templates',
 )
 
 INSTALLED_APPS = (
@@ -76,6 +83,8 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
+    'django.contrib.admin',
+    'django.contrib.comments',
     'bugtracker.core',
     'bugtracker.tests'
 )

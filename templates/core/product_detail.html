@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block section %}Products{% endblock %}
+{% block title %}Product Detail: {{ object.name }}{% endblock %}
+
+{% block content %}
+
+	<p class="title">Product Detail: {{ object.name }}</p>
+	<div class="view">
+        <div class="view_container" name="objectView" id="objectView">
+  
+            <fieldset>
+                <legend class="primary first">Product Information</legend>
+			    <ul>
+                    <li><label>Product:</label><span>{{ object.name }}</span><div class="vd" /></li>
+                    <li><label>Current Version:</label><span>{{ object.currentversion }}</span></li>
+		        </ul>
+	        </fieldset> 	
+	        
+            <div class="actions">
+                <p class="action-links">
+                    <a href="../create">Create Product</a> | <a href="../update/{{ object.pk }}">Update Product</a> | <a href="..">List Products</a>
+                </p>
+            </div>
+
+    	</div>
+	</div>
+
+{% endblock %}

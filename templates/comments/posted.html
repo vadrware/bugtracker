@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Thanks for commenting" %}.{% endblock %}
+
+{% block content %}
+  <p class="title">{% trans "Thank you for your comment" %}.</p>
+
+    <p><a href="{{ next }}">Return</a> to the record you were viewing.</p>
+{% endblock %}
