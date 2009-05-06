@@ -4,6 +4,8 @@ from bugtracker.core.models import *
 from django.conf import settings
 from django.contrib.comments.models import Comment
 from bugtracker.core.models import UserProfile
+from django.contrib.auth.decorators import login_required
+from django.views.generic.list_detail import *
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
@@ -36,6 +38,6 @@ urlpatterns = patterns('',
     (r'^products', include('bugtracker.core.urls.products')),
     (r'^resolutions', include('bugtracker.core.urls.resolutions')),
 
-    (r'^$', 'django.views.generic.list_detail.object_list', 
+    (r'^$', login_required(object_list), 
         dict(queryset = Defect.objects.all(), paginate_by = 30)),
 )
