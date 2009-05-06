@@ -11,5 +11,5 @@ urlpatterns = patterns('',
     (r'^/update/(?P<object_id>\d+)/?$', 'django.views.generic.create_update.update_object', 
         dict(model = Defect, form_class = DefectForm, login_required = True)),
     (r'^/delete/(?P<object_id>\d+)/?$', 'django.views.generic.create_update.delete_object', 
-        dict(model = Defect, login_required = True, post_delete_redirect = ".")),
+        dict(model = Defect, login_required = True, post_delete_redirect = "/defects")),
 )

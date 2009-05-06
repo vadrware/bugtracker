@@ -4,7 +4,7 @@
 
 {% block title %}
     {% if object %}
-	    Update Resolution: #{{ object.name }}
+	    Update Resolution: {{ object.name }}
     {% else %}
 	    Create Resolution
     {% endif %}
@@ -13,7 +13,7 @@
 {% block content %}
 
     {% if object %}
-	    <p class="title">Update Resolution: #{{ object.name }}</p>
+	    <p class="title">Update Resolution: {{ object.name }}</p>
     {% else %}
 	    <p class="title">Create Resolution</p>
     {% endif %}

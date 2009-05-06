@@ -1,7 +1,6 @@
 from django.db import models
 from django import forms
 from django.contrib.auth.models import User
-from datetime import datetime
 from time import strftime
 
 # Create your models here.
@@ -22,6 +21,7 @@ class Product (models.Model):
 
     def __str__(self):
         return self.name
+
     def get_absolute_url(self):
         return "/%s/%s/%s" % ('products', 'detail', self.pk);
 
@@ -32,8 +32,10 @@ class UserAccess (models.Model):
 
 class Resolution (models.Model):
     name = models.CharField( "Resolution", max_length = 30 )
+
     def __str__(self):
         return self.name
+
     def get_absolute_url(self):
         return "/%s/%s/%s" % ('resolutions', 'detail', self.pk);
 
@@ -63,9 +65,7 @@ class Defect (models.Model):
 		return self.pk
 
     def get_absolute_url(self):
-        return "/defects"
-
-#		return "/%s/%s/%s" % ('defects', 'detail', self.pk);
+        return "/%s/%s/%s" % ('defects', 'detail', self.pk);
 
 class Comment (models.Model):
 	userid = models.ForeignKey( User )
