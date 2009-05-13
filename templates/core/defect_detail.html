@@ -15,8 +15,9 @@
                 <legend class="primary first">Defect Information</legend>
 			    <ul>
                     <li><label>Defect Number:</label><span>{{ object.pk }}</span><div class="vd" /></li>
-                    <li><label>Reproduction Steps:</label><span class="text_area">{{ object.reproduce }}</span><div class="vd" /></li>
-                    <li><label>Created By:</label><span>{{ object.userid }}</span><div class="vd" /></li>
+                    <li><label>Short Description:</label><span class="text_area">{{ object.description|linebreaks }}</span><div class="vd" /></li>
+                    <li><label>Reproduction Steps:</label><span class="text_area">{{ object.reproduce|linebreaks }}</span><div class="vd" /></li>
+                    <li><label>Created By:</label><span>{{ object.userid.first_name }} {{ object.userid.last_name }} [<i>{{ object.userid }}</i>]</span><div class="vd" /></li>
                     <li><label>Post Date:</label><span>{{ object.postdate }}</span><div class="vd" /></li>
                     <li><label>Modified Date:</label><span>{{ object.moddate }}</span></li>
 		        </ul>
@@ -37,6 +38,14 @@
                     <li><label>Product Version:</label><span>{{ object.projectversion }}</span></li>
 		        </ul>
 	        </fieldset>
+	        
+            <fieldset>
+                <legend class="primary">Assigned To</legend>
+			    <ul>
+                    <li><label>Assigned QA:</label><span>{{ object.assignedqa.first_name }} {{ object.assignedqa.last_name }} [<i>{{ object.assignedqa }}</i>]</span><div class="vd" /></li>
+                    <li><label>Assigned Developer:</label><span>{{ object.assigneddev.first_name }} {{ object.assigneddev.last_name }} [<i>{{ object.assigneddev }}</i>]</span></li>
+		        </ul>
+	        </fieldset>	        
 	        
             <div class="actions">
                 <p class="action-links">

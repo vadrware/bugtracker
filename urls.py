@@ -37,7 +37,8 @@ urlpatterns = patterns('',
     (r'^defects', include('bugtracker.core.urls.defects')),
     (r'^products', include('bugtracker.core.urls.products')),
     (r'^resolutions', include('bugtracker.core.urls.resolutions')),
+    (r'^accounts', include('bugtracker.core.urls.accounts')),
 
     (r'^$', login_required(object_list), 
-        dict(queryset = Defect.objects.all(), paginate_by = 15)),
+        dict(queryset = Defect.objects.all(), paginate_by = 20)),
 )

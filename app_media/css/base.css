@@ -30,12 +30,35 @@ a, a:visited {
 
 table.object-list-table {
     width:100%;
-    border:1px;
+	border:1px;
+	border-collapse: collapse; 
 }
 
 table.object-list-table td {
     background-color:#eee;
-    padding:1px 1px 1px 3px;
+    padding:3px 3px 3px 3px;
+}
+
+table.object-list-table th {
+    padding:2px 2px 2px 2px;
+    text-align:left;
+    font-size:0.85em;
+}
+
+table.object-list-table tr {
+    border-bottom: 1px solid #ccc;
+}
+
+table.object-list-table tr.style-Verified td {
+    background-color: #d3ffd1;
+}
+
+table.object-list-table tr.style-Open td {
+    background-color: #FFFFCC;
+}
+
+table.object-list-table tr.style-Pending td {
+    background-color: #ffb8b8;
 }
 
 table.object-list-table td.object-list-item-menu-td {

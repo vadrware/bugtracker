@@ -44,14 +44,17 @@
                     </li>              
                     {% if user.is_superuser %}                                          
                         <li id="developer-menu" class="hasMenu">
-                           <a href="/admin/auth/" class=""><span class="text">Users</span></a>
+                           <a href="/accounts" class=""><span class="text">Users</span></a>
                         </li>
                     {% endif %}
+                    <li id="developer-menu" class="hasMenu">
+                       <a href="/reports" class=""><span class="text">Reports</span></a>
+                    </li>                      
                 </ul>
 		{% endif %}
                 <ul class="right">
 		{% if user.is_authenticated %}
-                    <li><a href="/accounts/">Logged in as [{{ user.username }}]</a></li>
+                    <li><a href="/accounts/">Logged in as <b>{{ user.first_name }} {{ user.last_name }}</b> [<i>{{ user.username }}</i>]</a></li>
                     <li><a href="/accounts/logout">Logout</a></li>
 		{% else %}
                     <li><a href="/accounts/login">Login</a></li>			
