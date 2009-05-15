@@ -15,7 +15,7 @@ class UserProfile (models.Model):
 # product model
 class Product (models.Model):
     name = models.CharField( "Product Category Name", max_length = 100 )
-    description = models.TextField( "Description" )
+    description = models.TextField( "Description", blank = True )
     
     def __str__(self):
         return self.name
@@ -24,7 +24,7 @@ class Product (models.Model):
 
 class ProductVersion (models.Model):
     version = models.CharField( "Version", max_length = 30 )
-    description = models.TextField( "Description" )
+    description = models.TextField( "Description", blank = True )
 
     def __str__(self):
         return self.version
@@ -50,7 +50,6 @@ class Defect (models.Model):
         )
     productid = models.ForeignKey( Product, verbose_name = "Product Category" )
     projectversion = models.ForeignKey( ProductVersion, verbose_name = "Product Version" )
-#    projectversion = models.CharField( "Project Version", max_length = 30 )
     postdate = models.DateTimeField( "Post Date", blank = True )
     moddate = models.DateTimeField( "Modified Date", blank = True )
     defectstate = models.CharField( "Defect State", max_length = 1, choices = defect_states, default = u'O' )
@@ -83,6 +82,7 @@ class DefectForm(forms.ModelForm):
     moddate = forms.DateTimeField( required = False, widget = forms.HiddenInput() )
     user = forms.IntegerField( required = False, widget = forms.HiddenInput() )
     userid = forms.ModelChoiceField( required = False, widget = forms.HiddenInput(), queryset = User.objects.all() )
+    modifieduserid = forms.ModelChoiceField( required = False, widget = forms.HiddenInput(), queryset = User.objects.all() )
     					   
     class Meta:
         model = Defect

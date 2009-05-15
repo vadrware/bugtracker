@@ -1,17 +1,17 @@
 {% extends "base.html" %}
 
-{% block section %}Product Categories{% endblock %}
-{% block title %}Manage Product Categories{% endblock %}
+{% block section %}Product Versions{% endblock %}
+{% block title %}Manage Product Versions{% endblock %}
 
 {% block content %}
 
 <div class="object-list-menu">
-	<a href="create/"><img title="Create Product Category" src="/app_media/images/icons/application_form_add.png" /></a>
+	<a href="create/"><img title="Create Product Version" src="/app_media/images/icons/application_form_add.png" /></a>
 </div>
 <table class="object-list-table">
 	<tr>
 		<th></th>
-		<th>Product Category</th>
+		<th>Product Version</th>
         <th>Description</th>
 	</tr>
 
@@ -24,7 +24,7 @@
                 <a href="delete/{{ object.pk }}"><img title="Delete" src="/app_media/images/icons/application_form_delete.png" /></a>
 			</span>
 		</td>
-		<td><a href="detail/{{ object.pk }}">{{ object.name }}</a></td>
+		<td><a href="detail/{{ object.pk }}">{{ object.version }}</a></td>
         <td>{{ object.description }}</td>
 	</tr>	
 	{% endfor %}

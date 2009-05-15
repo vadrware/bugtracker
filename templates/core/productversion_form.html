@@ -1,21 +1,21 @@
 {% extends "base.html" %}
 
-{% block section %}Product Categories{% endblock %}
+{% block section %}Product Versions{% endblock %}
 
 {% block title %}
     {% if object %}
-	    Update Product Category: {{ object.name }}
+	    Update Product Version: {{ object.version }}
     {% else %}
-	    Create Product Category
+	    Create Product Version
     {% endif %}
 {% endblock %}
 
 {% block content %}
 
     {% if object %}
-	    <p class="title">Update Product Category: {{ object.name }}</p>
+	    <p class="title">Update Product Version: {{ object.version }}</p>
     {% else %}
-	    <p class="title">Create Product Category</p>
+	    <p class="title">Create Product Version</p>
     {% endif %}
 
     {% if form.has_errors %}
@@ -25,7 +25,7 @@
     <div class='styled'>
     <form class="styled validate" method="POST" action="">
         <fieldset>
-    	    <legend class="primary first">Product Category Information</legend>
+    	    <legend class="primary first">Product Version Information</legend>
             <ul>
     		    {{ form.as_ul }}
             </ul>
