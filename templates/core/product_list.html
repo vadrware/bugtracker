@@ -13,6 +13,9 @@
 		<th></th>
 		<th>Product Category</th>
         <th>Description</th>
+        <th>Assigned Dev.</th>
+        <th>Assigned QA</th>        
+        <th>Assigned Mgr</th>        
 	</tr>
 
 	{% for object in object_list %}
@@ -26,6 +29,9 @@
 		</td>
 		<td><a href="detail/{{ object.pk }}">{{ object.name }}</a></td>
         <td>{{ object.description }}</td>
+		<td>{{ object.assigneddev.first_name }} {{ object.assigneddev.last_name }}</a></td>
+		<td>{{ object.assignedqa.first_name }} {{ object.assignedqa.last_name }}</a></td>        
+		<td>{{ object.assignedmgr.first_name }} {{ object.assignedmgr.last_name }}</a></td>        
 	</tr>	
 	{% endfor %}
 </table>

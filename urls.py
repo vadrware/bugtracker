@@ -41,7 +41,15 @@ urlpatterns = patterns('',
     (r'^accounts', include('bugtracker.core.urls.accounts')),
     
     # reports
-    (r'^reports', 'bugtracker.core.reports.index'),
+    (r'^reports/$', 'bugtracker.core.reports.index'),
+    (r'^reports/report01', 'bugtracker.core.reports.report01'),
+    (r'^reports/report02', 'bugtracker.core.reports.report02'),
+    (r'^reports/report03', 'bugtracker.core.reports.report03'),
+    (r'^reports/report04', 'bugtracker.core.reports.report04'),
+    (r'^reports/report05', 'bugtracker.core.reports.report05'),
+    (r'^reports/report06', 'bugtracker.core.reports.report06'),
+    (r'^reports/report07', 'bugtracker.core.reports.report07'),
+    (r'^reports/report08', 'bugtracker.core.reports.report08'),
 
     (r'^$', login_required(object_list), 
         dict(queryset = Defect.objects.all(), paginate_by = 20)),

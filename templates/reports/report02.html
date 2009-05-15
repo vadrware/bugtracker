@@ -1,0 +1,24 @@
+{% extends "reports.html" %}
+
+{% block selected_tab_2 %} class="tabs-selected"{% endblock %}
+{% block title %}Report 2{% endblock %}
+
+{% block content %}
+
+    <div class='styled'>
+    <form class="styled validate" method="GET" action="" onSubmit="window.location='/defects/detail/'+$('#id').val();return false;">
+        <fieldset>
+    	    <legend class="primary first">Lookup Defect ID</legend>
+            <ul>
+    		    <li><label for="id">Defect ID:</label> <input id="id" type="text" name="id" maxlength="10" /></li>
+            </ul>
+        </fieldset>
+        <div class="submit">
+            <p class="submit-buttons">
+		        <input type="submit" name="submit" value="Lookup" />            	
+            </p>
+        </div>
+    </form>
+    </div>
+
+{% endblock %}

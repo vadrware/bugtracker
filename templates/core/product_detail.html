@@ -17,6 +17,15 @@
 		        </ul>
 	        </fieldset> 	
 	        
+            <fieldset>
+                <legend class="primary">Assigned To</legend>
+			    <ul>
+                    <li><label>Assigned QA:</label><span>{{ object.assignedqa.first_name }} {{ object.assignedqa.last_name }} [<i>{{ object.assignedqa }}</i>]</span><div class="vd" /></li>
+                    <li><label>Assigned Developer:</label><span>{{ object.assigneddev.first_name }} {{ object.assigneddev.last_name }} [<i>{{ object.assigneddev }}</i>]</span><div class="vd" /></li>
+                    <li><label>Assigned Manager:</label><span>{{ object.assignedmgr.first_name }} {{ object.assignedmgr.last_name }} [<i>{{ object.assignedmgr }}</i>]</span></li>
+		        </ul>
+	        </fieldset>	        	        
+	        
             <div class="actions">
                 <p class="action-links">
                     <a href="../create">Create Product Category</a> | <a href="../update/{{ object.pk }}">Update Product Category</a> | <a href="..">List Product Categories</a>

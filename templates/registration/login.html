@@ -5,11 +5,31 @@
 
 {% block content %}
 
-<div class="login-form">
+<div style="text-align:center;">
 	{% if form.errors %}
 	<p style="color:red;margin-bottom:20px;">Your username and password did not match. Please try again.</p>
 	{% endif %}
 
+    <div class='styled' style='width:400px;'>
+    <form class="styled validate" method="post" action="{% url django.contrib.auth.views.login %}">
+        <fieldset>
+    	    <legend class="primary first">Please Login</legend>
+            <ul>
+            	<li>&nbsp;</li>
+    		    <li style="width:380px;">{{ form.username.label_tag }} {{ form.username }}</li>
+     		    <li style="width:380px;">{{ form.password.label_tag }} {{ form.password }}</li>
+            </ul>
+        </fieldset>
+        <div class="submit">
+            <p class="submit-buttons">
+				<input type="submit" value="Login" />
+				<input type="hidden" name="next" value="{{ next }}" />         	
+            </p>
+        </div>
+    </form>
+    </div>
+</div>
+<!--
 	<form method="post" action="{% url django.contrib.auth.views.login %}">
 	<table>
 	<tr>
@@ -29,8 +49,7 @@
 		</td>
 	</tr>
 	</table>
-	</form>
-</div>
+	</form>-->
 
 {% endblock %}
 

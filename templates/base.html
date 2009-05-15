@@ -16,6 +16,7 @@
 
 	<link rel="SHORTCUT ICON" href="/favicon.ico" />
 	<link rel="stylesheet" type="text/css" href="/app_media/css/base.css" media="all" />
+	{% block css %}{% endblock %}
 </head>
 <body>
 <div id="canvas">    
@@ -79,7 +80,7 @@
                 </div>
 
             </div>
-                        <div class="content">
+            <div class="content">
                 <div class="corners top">
                     <div class="left"></div>
                     <div class="right"></div>
@@ -94,6 +95,8 @@
                     <div class="right"></div>
                 </div>
                 <div id="content_area" class="inner_canvas">
+
+		{% block tabs %}{% endblock %}
 
 		{% block content %}{% endblock %}
 
