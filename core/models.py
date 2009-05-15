@@ -59,22 +59,27 @@ class Defect (models.Model):
     description = models.TextField( "Short Description" )
     reproduce = models.TextField( "Steps to Reproduce", blank = True )
     resolutionid = models.ForeignKey( Resolution, verbose_name = "Resolution" )
-    userid = models.ForeignKey( User, verbose_name = "Created By", related_name = "Created By", unique=True )
-    modifieduserid = models.ForeignKey( User, verbose_name = "Modified By", related_name = "Modified By", unique=True )
-    assignedqa = models.ForeignKey( User, verbose_name = "Assigned QA", related_name = "Assigned QA", unique=True )
-    assigneddev = models.ForeignKey( User, verbose_name = "Assigned Developer", related_name = "Assigned Developer", unique=True )
-    assignedmgr = models.ForeignKey( User, verbose_name = "Assigned Manager", related_name = "Assigned Manager", unique=True )
+    userid = models.ForeignKey( User, verbose_name = "Created By", related_name = "Created By" )
+    modifieduserid = models.ForeignKey( User, verbose_name = "Modified By", related_name = "Modified By" )
+    assignedqa = models.ForeignKey( User, verbose_name = "Assigned QA", related_name = "Assigned QA" )
+    assigneddev = models.ForeignKey( User, verbose_name = "Assigned Developer", related_name = "Assigned Developer" )
+    assignedmgr = models.ForeignKey( User, verbose_name = "Assigned Manager", related_name = "Assigned Manager" )
 
-    def save(self):
+    def save(self,*args, **kwargs):
         if self.postdate == None:
             self.postdate = strftime("%Y-%m-%d %H:%M:%S")
         self.moddate = strftime("%Y-%m-%d %H:%M:%S")
-        super(Defect, self).save()
+        super(Defect, self).save(*args, **kwargs)
     def __str__(self):
         return self.pk
     def get_absolute_url(self):
         return "/%s/%s/%s" % ('defects', 'detail', self.pk)
-	
+'''
+when this gets called, it errors: "AttributeError: 'Defect' object has no attribute 'change_state'".  lolwut?
+	def change_state(self, newstate):
+		if newstate in defect_states:
+			self.state=newstate
+'''	
 #
 # ModelForm classes
 #
