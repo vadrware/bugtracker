@@ -70,16 +70,21 @@ class Defect (models.Model):
     assigneddev = models.ForeignKey( User, verbose_name = "Assigned Developer", related_name = "Assigned Developer" )
     assignedmgr = models.ForeignKey( User, verbose_name = "Assigned Manager", related_name = "Assigned Manager" )
 
-    def save(self):
+    def save(self,*args, **kwargs):
         if self.postdate == None:
             self.postdate = strftime("%Y-%m-%d %H:%M:%S")
         self.moddate = strftime("%Y-%m-%d %H:%M:%S")
-        super(Defect, self).save()
+        super(Defect, self).save(*args, **kwargs)
     def __str__(self):
         return self.pk
     def get_absolute_url(self):
         return "/%s/%s/%s" % ('defects', 'detail', self.pk)
-	
+'''
+when this gets called, it errors: "AttributeError: 'Defect' object has no attribute 'change_state'".  lolwut?
+	def change_state(self, newstate):
+		if newstate in defect_states:
+			self.state=newstate
+'''	
 #
 # ModelForm classes
 #
