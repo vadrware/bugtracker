@@ -6,7 +6,7 @@ from time import strftime
 #
 # application core models
 #
-
+       
 # additional variables associated with user, this links up with django.contrib.auth.models.User
 class UserProfile (models.Model):
 	userid = models.ForeignKey( User, unique = True )
@@ -19,7 +19,10 @@ class UserProfile (models.Model):
 class Product (models.Model):
     name = models.CharField( "Product Category Name", max_length = 100 )
     description = models.TextField( "Description", blank = True )
-    
+    assignedqa = models.ForeignKey( User, verbose_name = "Assigned QA", related_name = "Category Assigned QA" )
+    assigneddev = models.ForeignKey( User, verbose_name = "Assigned Developer", related_name = "Category Assigned Developer" )
+    assignedmgr = models.ForeignKey( User, verbose_name = "Assigned Manager", related_name = "Category Assigned Manager" )
+        
     def __str__(self):
         return self.name
     def get_absolute_url(self):
@@ -51,6 +54,8 @@ class Defect (models.Model):
                 ( u'V', u'Verified' ),
                 ( u'C', u'Closed' )
         )
+    defect_states_lookup = {u'O': u'Open', u'P': u'Pending', u'V': u'Verified', u'C': u'Closed'}
+    
     productid = models.ForeignKey( Product, verbose_name = "Product Category" )
     projectversion = models.ForeignKey( ProductVersion, verbose_name = "Product Version" )
     postdate = models.DateTimeField( "Post Date", blank = True )
@@ -85,7 +90,7 @@ when this gets called, it errors: "AttributeError: 'Defect' object has no attrib
 #
 
 # customize how defect forms render
-class DefectForm(forms.ModelForm):
+class DefectForm (forms.ModelForm):
     postdate = forms.DateTimeField( required = False, widget = forms.HiddenInput() )
     moddate = forms.DateTimeField( required = False, widget = forms.HiddenInput() )
     user = forms.IntegerField( required = False, widget = forms.HiddenInput() )
@@ -100,6 +105,7 @@ class DefectForm(forms.ModelForm):
         # filter selection lists to appropriate group members
         self.fields["assignedqa"].queryset = User.objects.filter(groups__name = 'QA')
         self.fields["assigneddev"].queryset = User.objects.filter(groups__name = 'Developers')
+        self.fields["assignedmgr"].queryset = User.objects.filter(groups__name = 'Managers')
         
     def clean_defectstate(self): 
         # make sure new defects start in open state   
@@ -125,3 +131,15 @@ class DefectForm(forms.ModelForm):
         	raise forms.ValidationError('Only assigned QA person may change state to verified.')                
 
         return self.cleaned_data.get('defectstate')
+
+class ProductForm (forms.ModelForm):
+	class Meta:
+		model = Product
+
+	def __init__(self, *args, **kwargs):
+		super(ProductForm, self).__init__(*args, **kwargs)
+        # filter selection lists to appropriate group members
+        #self.fields["assignedqa"].queryset = User.objects.filter(groups__name = 'QA')
+        #self.fields["assigneddev"].queryset = User.objects.filter(groups__name = 'Developers')
+        #self.fields["assignedmgr"].queryset = User.objects.filter(groups__name = 'Managers')        
+

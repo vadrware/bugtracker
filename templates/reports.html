@@ -1,123 +1,18 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+{% extends "base.html" %}
 
-	<title>VADRware Bugtracker</title>
+{% block css %}<link rel="stylesheet" type="text/css" href="/app_media/css/jquery.ui.css" media="all" />{% endblock %}
 
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<meta http-equiv="Content-Language" content="en" />
-	<meta http-equiv="Pragma" content="no-cache" />
+{% block section %}Reports{% endblock %}
 
-	<meta name="description" content="Bugtracker" />
-
-	<meta name="copyright" content="VADRware" />
-	<meta name="author" content="VADRware" />
-	<meta name="keywords" content="VADRware, bugtrack" />
-	<meta name="robots" content="noindex, nofollow" />
-
-	<link rel="SHORTCUT ICON" href="/favicon.ico" />
-	<link rel="stylesheet" type="text/css" href="/app_media/css/base.css" media="all" />
-</head>
-<body>
-<div id="canvas">    
-    <div id="page">
-
-        <div id="header">
-            <h1 class="logo"><a href="/" class="notext"><span>VADRWare</span></a></h1>
-            <span id="apptitle">Bug Tracker</span>
-
-        <div id="navbar" class="glass">
-            <div class="caps">
-                <div class="left"></div>
-                <div class="right"></div>
-            </div>
-            <div class="fill">
-		{% if user.is_authenticated %}
-                <ul class="left">
-                    <li id="developer-menu" class="hasMenu">
-                       <a href="/defects" class=""><span class="text">Defects</span></a>
-                    </li>
-                    <li id="developer-menu" class="hasMenu">
-                       <a href="/products" class=""><span class="text">Products Categories</span></a>
-                    </li>
-                    <li id="developer-menu" class="hasMenu">
-                       <a href="/productversions" class=""><span class="text">Versions</span></a>
-                    </li>
-                    <li id="developer-menu" class="hasMenu">
-                       <a href="/resolutions" class=""><span class="text">Resolutions</span></a>
-                    </li>              
-                    {% if user.is_superuser %}                                          
-                        <li id="developer-menu" class="hasMenu">
-                           <a href="/accounts" class=""><span class="text">Users</span></a>
-                        </li>
-                    {% endif %}
-                    <li id="developer-menu" class="hasMenu">
-                       <a href="/reports" class=""><span class="text">Reports</span></a>
-                    </li>                      
-                </ul>
-		{% endif %}
-                <ul class="right">
-		{% if user.is_authenticated %}
-                    <li><a href="/accounts/">Logged in as <b>{{ user.first_name }} {{ user.last_name }}</b> [<i>{{ user.username }}</i>]</a></li>
-                    <li><a href="/accounts/logout">Logout</a></li>
-		{% else %}
-                    <li><a href="/accounts/login">Login</a></li>			
-		{% endif %}
-                </ul>
-            </div>
-        </ul>
-        </div>
-        <div id="body">
-            <div class="header glass">
-
-                <div class="caps">
-                    <div class="left"></div>
-                    <div class="right"></div>
-                </div>
-                <div class="fill">
-                    <h2 class="left"><a href="..">{% block section %}{% endblock %}</a></h2>
-                                        <h3 class="left"><span class="bullet"></span>{% block title %}{% endblock %}</h3>
-                </div>
-
-            </div>
-                        <div class="content">
-                <div class="corners top">
-                    <div class="left"></div>
-                    <div class="right"></div>
-                </div>
-                <div class="corners bottom">
-                    <div class="left"></div>
-                    <div class="right"></div>
-
-                </div>
-                <div class="sides">
-                    <div class="left"></div>
-                    <div class="right"></div>
-                </div>
-                <div id="content_area" class="inner_canvas">
-
-		{% block content %}{% endblock %}
-
-	
-		<div class="clear"></div>
-                </div>
-            </div>
-            <div class="footer">
-
-                <div class="caps">
-                    <div class="left"></div>
-                    <div class="right"></div>
-                </div>
-                <div class="fill"></div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Javascript placed at the end to improve page load performance -->
-<script type="text/javascript" src="/app_media/js/jquery.js"></script>
-<script type="text/javascript" src="/app_media/js/jquery.dimensions.pack.js"></script>
-<script type="text/javascript" src="/app_media/js/jquery.tooltip.pack.js"></script>
-<script type="text/javascript" src="/app_media/js/base.js"></script>
-
-</body>
-</html>
+{% block tabs %}
+	<ul class="tabs-nav">
+	    <li{% block selected_tab_1 %}{% endblock %}><a href="/reports/"><span>Defect List</span></a></li>
+	    <li{% block selected_tab_2 %}{% endblock %}><a href="/reports/report02"><span>Defect Lookup</span></a></li>
+	    <li{% block selected_tab_3 %}{% endblock %}><a href="/reports/report03"><span>Defects by Version</span></a></li>
+	    <li{% block selected_tab_4 %}{% endblock %}><a href="/reports/report04"><span>My Dev List</span></a></li>
+	    <li{% block selected_tab_5 %}{% endblock %}><a href="/reports/report05"><span>My QA List</span></a></li>
+	    <li{% block selected_tab_6 %}{% endblock %}><a href="/reports/report06"><span>Defect Count</span></a></li>
+	    <li{% block selected_tab_7 %}{% endblock %}><a href="/reports/report07"><span>Category List</span></a></li>
+	    <li{% block selected_tab_8 %}{% endblock %}><a href="/reports/report08"><span>User List</span></a></li>
+	</ul>
+{% endblock %}

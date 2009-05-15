@@ -1,0 +1,32 @@
+{% extends "reports.html" %}
+
+{% block selected_tab_1 %} class="tabs-selected"{% endblock %}
+{% block title %}Report 1{% endblock %}
+
+{% block content %}
+
+<table class="object-list-table" style="margin-top:10px;">
+	<tr>
+		<th>Defect #</th>
+        <th>Category</th>
+        <th width="250">Short Description</th>
+        <th>Date Opened</th>        
+        <th>Version</th>
+        <th>Assigned Dev.</th>
+        <th>Assigned QA</th>
+	</tr>
+
+	{% for object in object_list %}
+	<tr>
+		<td>{{ object.pk }}</a></td>
+		<td>{{ object.productid }}</a></td>
+		<td>{{ object.description }}</a></td>
+		<td>{{ object.postdate }}</a></td>
+		<td>{{ object.projectversion }}</a></td>
+		<td>{{ object.assigneddev.first_name }} {{ object.assigneddev.last_name }}</a></td>
+		<td>{{ object.assignedqa.first_name }} {{ object.assignedqa.last_name }}</a></td>
+	</tr>	
+	{% endfor %}
+</table>
+
+{% endblock %}
