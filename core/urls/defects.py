@@ -12,4 +12,5 @@ urlpatterns = patterns('',
     (r'^/update/(?P<object_id>\d+)/?$', 'bugtracker.core.defects.update'),
     (r'^/delete/(?P<object_id>\d+)/?$', 'django.views.generic.create_update.delete_object', 
         dict(model = Defect, login_required = True, post_delete_redirect = "/defects")),
+    (r'^/ajax_get_assignments/(?P<productid>\d+)/?$', 'bugtracker.core.defects.ajax_get_assignments'),
 )

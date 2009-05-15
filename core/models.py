@@ -64,11 +64,11 @@ class Defect (models.Model):
     description = models.TextField( "Short Description" )
     reproduce = models.TextField( "Steps to Reproduce", blank = True )
     resolutionid = models.ForeignKey( Resolution, verbose_name = "Resolution" )
-    userid = models.ForeignKey( User, verbose_name = "Created By", related_name = "Created By", unique=True )
-    modifieduserid = models.ForeignKey( User, verbose_name = "Modified By", related_name = "Modified By", unique=True )
-    assignedqa = models.ForeignKey( User, verbose_name = "Assigned QA", related_name = "Assigned QA", unique=True )
-    assigneddev = models.ForeignKey( User, verbose_name = "Assigned Developer", related_name = "Assigned Developer", unique=True )
-    assignedmgr = models.ForeignKey( User, verbose_name = "Assigned Manager", related_name = "Assigned Manager", unique=True )
+    userid = models.ForeignKey( User, verbose_name = "Created By", related_name = "Created By" )
+    modifieduserid = models.ForeignKey( User, verbose_name = "Modified By", related_name = "Modified By" )
+    assignedqa = models.ForeignKey( User, verbose_name = "Assigned QA", related_name = "Assigned QA" )
+    assigneddev = models.ForeignKey( User, verbose_name = "Assigned Developer", related_name = "Assigned Developer" )
+    assignedmgr = models.ForeignKey( User, verbose_name = "Assigned Manager", related_name = "Assigned Manager" )
 
     def save(self):
         if self.postdate == None:
@@ -91,50 +91,43 @@ class DefectForm (forms.ModelForm):
     user = forms.IntegerField( required = False, widget = forms.HiddenInput() )
     userid = forms.ModelChoiceField( required = False, widget = forms.HiddenInput(), queryset = User.objects.all() )
     modifieduserid = forms.ModelChoiceField( required = False, widget = forms.HiddenInput(), queryset = User.objects.all() )
-    					   
+    assignedqa = forms.ModelChoiceField( label = 'Assigned QA', queryset = User.objects.filter(groups__name = 'QA') )
+    assigneddev = forms.ModelChoiceField( label = 'Assigned Developer', queryset = User.objects.filter(groups__name = 'Developers') )
+    assignedmgr = forms.ModelChoiceField( label = 'Assigned Manager', queryset = User.objects.filter(groups__name = 'Managers') )
+	    					   
     class Meta:
         model = Defect
 
-    def __init__(self, *args, **kwargs):
-        super(DefectForm, self).__init__(*args, **kwargs)
-        # filter selection lists to appropriate group members
-        self.fields["assignedqa"].queryset = User.objects.filter(groups__name = 'QA')
-        self.fields["assigneddev"].queryset = User.objects.filter(groups__name = 'Developers')
-        self.fields["assignedmgr"].queryset = User.objects.filter(groups__name = 'Managers')
-        
     def clean_defectstate(self): 
-        # make sure new defects start in open state   
-        if self.cleaned_data.get('defectstate') != u'O' and self.instance.pk == u'None':
+        # make sure new defects start in open state     
+        if str(self.cleaned_data.get('defectstate')) != u'O' and str(self.instance.pk) == u'None':
             raise forms.ValidationError('New defects must start in Open state.')
-
-        if self.instance.pk == u'None' or (self.instance.pk != u'None' and self.cleaned_data.get('defectstate') == self.instance.defectstate):
+        if str(self.instance.pk) == u'None' or (str(self.instance.pk) != u'None' and str(self.cleaned_data.get('defectstate')) == str(self.instance.defectstate)):
            return self.cleaned_data.get('defectstate')
 
     	user = User.objects.get( id = self.data.get('user') )
 
         # only pending defects can be verified
-        if self.cleaned_data.get('defectstate') == u'V' and self.instance.defectstate != u'P':
+        if str(self.cleaned_data.get('defectstate')) == u'V' and str(self.instance.defectstate) != u'P':
         	raise forms.ValidationError('Defects must be in pending state before they can be verified.')
         # only verified defects can be closed
-        if self.cleaned_data.get('defectstate') == u'C' and self.instance.defectstate != u'V':
+        if str(self.cleaned_data.get('defectstate')) == u'C' and str(self.instance.defectstate) != u'V':
         	raise forms.ValidationError('Defects must be verified before they can be closed.')
-        # make sure only users in managers group can close defects in verified state
-        if self.cleaned_data.get('defectstate') == u'C' and user.groups.filter(name = 'Managers').count() == 0:
-        	raise forms.ValidationError('Only managers can close verified defects.')
+        # make sure only users in managers group can close defects in verified state (and only the assigned manager)
+        if str(self.cleaned_data.get('defectstate')) == u'C' and (user.groups.filter(name = 'Managers').count() == 0 or int(user.id) != int(self.data.get('assignedmgr'))):
+        	raise forms.ValidationError('Only assigned manager can close verified defect.')
         # only assigned qa person may change defect state from pending to verified
-        if self.cleaned_data.get('defectstate') == u'V' and self.instance.defectstate == u'P' and int(user.id) != int(self.data.get('assignedqa')):
+        if str(self.cleaned_data.get('defectstate')) == u'V' and str(self.instance.defectstate) == u'P' and int(user.id) != int(self.data.get('assignedqa')):
         	raise forms.ValidationError('Only assigned QA person may change state to verified.')                
 
         return self.cleaned_data.get('defectstate')
 
 class ProductForm (forms.ModelForm):
+	assignedqa = forms.ModelChoiceField( label = 'Assigned QA', queryset = User.objects.filter(groups__name = 'QA') )
+	assigneddev = forms.ModelChoiceField( label = 'Assigned Developer', queryset = User.objects.filter(groups__name = 'Developers') )
+	assignedmgr = forms.ModelChoiceField( label = 'Assigned Manager', queryset = User.objects.filter(groups__name = 'Managers') )
+	
 	class Meta:
 		model = Product
 
-	def __init__(self, *args, **kwargs):
-		super(ProductForm, self).__init__(*args, **kwargs)
-        # filter selection lists to appropriate group members
-        #self.fields["assignedqa"].queryset = User.objects.filter(groups__name = 'QA')
-        #self.fields["assigneddev"].queryset = User.objects.filter(groups__name = 'Developers')
-        #self.fields["assignedmgr"].queryset = User.objects.filter(groups__name = 'Managers')        
 

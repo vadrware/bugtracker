@@ -43,4 +43,28 @@
 	    <p>{{ form.error_dict }}</p>
     -->
 
+	<script>
+		$(document).ready(function(){ 
+			if ($.browser.msie) {
+				$("#id_productid").change(function(){ 
+					$.getJSON("/defects/ajax_get_assignments/" + $(this).val(),
+	        			function(data){
+	        				$("#id_assignedqa").val(data['assignedqa']);
+	          				$("#id_assigneddev").val(data['assigneddev']);
+	          				$("#id_assignedmgr").val(data['assignedmgr']);
+	          		});
+				});
+			} else {
+				$("#id_productid option").click(function(){ 
+					$.getJSON("/defects/ajax_get_assignments/" + $(this).val(),
+	        			function(data){
+	        				$("#id_assignedqa").val(data['assignedqa']);
+	          				$("#id_assigneddev").val(data['assigneddev']);
+	          				$("#id_assignedmgr").val(data['assignedmgr']);
+	          		});
+				});			
+			}
+		});
+	</script>
+
 {% endblock %}
