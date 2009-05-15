@@ -5,7 +5,8 @@ from time import strftime
 
 class productTestCase(unittest.TestCase):
 	def setUp(self):
-		self.p = Product.objects.create(name = 'awesome', description = 'a sweet product')
+		self.usr = User.objects.create_user('rich', 'rroslund@iit.edu', 'richpassword')
+		self.p = Product.objects.create(name = 'awesome', description = 'a sweet product', assignedqa=self.usr,assigneddev=self.usr,assignedmgr=self.usr)
 
 	def testStr(self):
 		self.assertEquals(self.p.name,'awesome')
@@ -54,10 +55,6 @@ class defectTestCase(unittest.TestCase):
 		self.prv = ProductVersion.objects.create(version = '1.0',description = "the official release")
 		self.de = Defect.objects.create(productid = self.pr, projectversion=self.prv, postdate = strftime("%Y-%m-%d %H:%M:%S"), moddate = strftime("%Y-%m-%d %H:%M:%S"), defectstate = u'O',description = "bug description", reproduce = "do stuff, it breaks", resolutionid = self.re, userid = self.usr, modifieduserid = self.usr, assignedqa = self.usr, assigneddev = self.usr, assignedmgr = self.usr)
 		self.de.save()
-
-	def testUsr(self):
-		self.assertEquals(self.usr.username,'rich')
-		self.assertEquals(self.usr.email,'rroslund@iit.edu')
 
 #	def testStr(self):
 #		self.assertEquals(self.de.__str__(),self.de.pk)
