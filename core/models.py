@@ -59,11 +59,11 @@ class Defect (models.Model):
     description = models.TextField( "Short Description" )
     reproduce = models.TextField( "Steps to Reproduce", blank = True )
     resolutionid = models.ForeignKey( Resolution, verbose_name = "Resolution" )
-    userid = models.ForeignKey( User, verbose_name = "Created By", related_name = "Created By" )
-    modifieduserid = models.ForeignKey( User, verbose_name = "Modified By", related_name = "Modified By" )
-    assignedqa = models.ForeignKey( User, verbose_name = "Assigned QA", related_name = "Assigned QA" )
-    assigneddev = models.ForeignKey( User, verbose_name = "Assigned Developer", related_name = "Assigned Developer" )
-    assignedmgr = models.ForeignKey( User, verbose_name = "Assigned Manager", related_name = "Assigned Manager" )
+    userid = models.ForeignKey( User, verbose_name = "Created By", related_name = "Created By", unique=True )
+    modifieduserid = models.ForeignKey( User, verbose_name = "Modified By", related_name = "Modified By", unique=True )
+    assignedqa = models.ForeignKey( User, verbose_name = "Assigned QA", related_name = "Assigned QA", unique=True )
+    assigneddev = models.ForeignKey( User, verbose_name = "Assigned Developer", related_name = "Assigned Developer", unique=True )
+    assignedmgr = models.ForeignKey( User, verbose_name = "Assigned Manager", related_name = "Assigned Manager", unique=True )
 
     def save(self):
         if self.postdate == None:
