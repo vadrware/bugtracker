@@ -1,8 +1,21 @@
-Database server installation instructions (32-bit Ubuntu):
+#
+# Database server installation instructions (32-bit Ubuntu):
+#
 
-...
+- Fastest way to get a database up and running is to use SQLite3, although it is possible to get this application running on PostgreSQL, MySQL and Oracle.
 
-Application server stack installation instructions (32-bit Ubuntu):
+sudo aptitude install sqlite3
+cd ~/vadrware/bugtracker
+# edit settings.py and set the following:
+DATABASE_ENGINE = 'sqlite3'
+DATABASE_NAME = '/path/to/bugtracker.db' # make sure user can write to this location
+python manage.py syncdb
+python manage.py runserver
+# head over to http://localhost:8000/ to test the application
+
+#
+# Application server stack installation instructions (32-bit Ubuntu, using Oracle database for backend):
+#
 
 # install oracle client (if you don't have it already installed)
 sudo echo 'deb http://oss.oracle.com/debian unstable main non-free' >> /etc/apt/sources.list
@@ -13,7 +26,7 @@ sudo mkdir -p $ORACLE_HOME/network/admin
 sudo vi $ORACLE_HOME/network/admin/tnsnames.ora
 
 # paste the following into tnsnames.ora:
-<your database>
+<your database name description>
 
 # now you have to configure the oracle client to properly set environment variables when you log in
 # log into your normal user you typically develop under
@@ -79,16 +92,16 @@ sudo echo "export LD_LIBRARY_PATH=/usr/lib/oracle/xe/app/oracle/product/10.2.0/c
 # now you have to edit apache configuration file
 sudo vi /etc/apache2/sites-available/default
 # and add the following under VirtualHost directive: 
-WSGIScriptAlias /bugtracker /var/www/vadrware/bugtracker/bugtracker.wsgi
+WSGIScriptAlias / /var/www/vadrware/bugtracker/bugtracker.wsgi
 
 # restart apache
 sudo /etc/init.d/apache2 restart
 
 # test run the application
-# open up a web browser and head to http://localhost/bugtracker, you should be redirected to a login page
+# open up a web browser and head to http://localhost/, you should be redirected to a login page
 
 #
-# if apache setup is too painful, use
+# if apache setup is too painful, use built in Django debugging server instead
 #
 cd ~/vadrware/bugtracker
 python manage.py runserver
@@ -96,6 +109,68 @@ python manage.py runserver
 
 # done!
 
+#
+# 64-bit Ubuntu Installation guide
+#
 
-# 64-bit installation instructions
+# Install Oracle
+# Before installing Oracle, you have to tweak a few things.
+# First, make sure you have the packages you'll need:
+sudo apt-get install build-essential libaio rpm lesstif2-dev alien
+# ***you may need to use "libaio1" instead of "libaio"***
+sudo ln -s /usr/bin/awk /bin/awk
+sudo ln -s /usr/bin/rpm /bin/rpm
+sudo ln -s /lib/libgcc_s.so.1 /lib/libgcc_s.so
+sudo ln -s /usr/bin/basename /bin/basename
+
+# Now, set some environment variables in your .bashrc file for the Oracle installation:
+sudo vi ~./bashrc
+# Add these two lines to the bottom of the file:
+export ORACLE_HOME=path/to/the/desired/directory
+export LD_LIBRARY_PATH=$ORACLE_HOME/lib
+
+# The Oracle client can be downloaded from the website:  http://www.oracle.com/technology/software/products/database/oracle10g/htdocs/10201linx8664soft.html.  Download the 10g Client Release 2
+# Oracle will prompt you to log in, use these credentials:  username:oracle_download@mailinator.com password:download
+# Once you have the file downloaded, open a terminal, change to the directory where it resides, and execute the command: 
+zcat filename.cpio.gz | cpio -idmv
+# That will create a folder named "client", which you should navigate to.  Run the installer:
+./runInstaller -ignoreSysPrereqs
+# This brings up a GUI installation for Oracle, make sure you install the "Administrator" option.
+# After the installation finishes and you exit the GUI:
+sudo vi $ORACLE_HOME/network/admin/tnsnames.ora
+# paste this into the file:
+<your database name description>
+
+# Install Python
+# You may already have Python installed, but you need at least version 2.5, as well as some other packages
+sudo apt-get install python python-dev python-setuptools
+
+# Install cx_Oracle
+sudo -E easy_install cx_Oracle
+
+# Install Django
+wget http://www.djangoproject.com/download/1.0.2/tarball/
+tar zxvf Django-1.0.2-final.tar.gz
+cd Django-1.0.2-final
+sudo python setup.py install
+
+# Install and configure git
+sudo apt-get isntall git-core
+git config --global user.name "Your Name"
+git config --global user.email your@email.com
+
+# import project code from github
+mkdir ~/vadrware; cd ~/vadrware
+git clone git://github.com/vadrware/bugtracker.git
+
+# edit ~/vadrware/bugtracker/settings.py and set DATABASE_PASSWORD = '<your oracle schema password>',
+
+# create a symbolic link to your bugtracker installation (this is a hack so that you don't have to modify config paths with your user folder)
+sudo ln -s ~/vadrware /var/www/vadrware
+
+# To run the application:
+cd ~/vadrware/bugtracker
+python manage.py runserver
+# The server should be running at http://localhost:8000/
+
 
