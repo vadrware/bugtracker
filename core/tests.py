@@ -5,17 +5,22 @@ from time import strftime
 
 class productTestCase(unittest.TestCase):
 	def setUp(self):
-		self.usr = User.objects.create_user('rich', 'rroslund@iit.edu', 'richpassword')
-		self.p = Product.objects.create(name = 'awesome', description = 'a sweet product', assignedqa=self.usr,assigneddev=self.usr,assignedmgr=self.usr)
+		self.usr = User.objects.create_user('rich3', 'rroslund@iit.edu', 'richpassword')
+		self.p = Product.objects.create(name = 'awesome3', description = 'a sweet product', assignedqa=self.usr,assigneddev=self.usr,assignedmgr=self.usr)
 
 	def testStr(self):
-		self.assertEquals(self.p.name,'awesome')
+		self.assertEquals(self.p.name,'awesome3')
 		self.assertEquals(self.p.description,'a sweet product')
-		self.assertEquals(self.p.__str__(),'awesome')	
+		self.assertEquals(self.p.__str__(),'awesome3')	
+
+class product2TestCase(unittest.TestCase):
+	def setUp(self):
+		self.usr1 = User.objects.create_user('rich1', 'rroslund@iit.edu', 'richpassword')
+		self.p1 = Product.objects.create(name = 'awesome1', description = 'a sweet product', assignedqa=self.usr1,assigneddev=self.usr1,assignedmgr=self.usr1)
 
 	def testGet_absolute_url(self):
-		val = '/products/detail/'+str(self.p.pk)	
-		self.assertEquals(self.p.get_absolute_url(),val)
+		val = '/products/detail/'+str(self.p1.pk)	
+		self.assertEquals(self.p1.get_absolute_url(),val)
 
 class productversionTestCase(unittest.TestCase):
 	def setUp(self):
@@ -49,28 +54,28 @@ class userprofileTestCase(unittest.TestCase):
 
 class defectTestCase(unittest.TestCase):
 	def setUp(self):
-		self.pr = Product.objects.create(name = 'awesome', description = "awwwright")
-		self.re = Resolution.objects.create(name = "fixed bug")
-		self.usr = User.objects.create_user('rich', 'rroslund@iit.edu', 'richpassword')
-		self.prv = ProductVersion.objects.create(version = '1.0',description = "the official release")
+		self.user = User.objects.create_user('rich', 'rroslund@iit.edu', 'richpassword')
+		self.p = Product.objects.create(name = 'awesome', description = "awwwright",assignedqa=self.user,assigneddev=self.user,assignedmgr=self.user)
+		self.r = Resolution.objects.create(name = "fixed bug")
+		self.pv = ProductVersion.objects.create(version = '1.0',description = "the official release")
+		self.d = Defect.objects.create(productid = self.p, projectversion=self.pv, postdate = strftime("%Y-%m-%d %H:%M:%S"), moddate = strftime("%Y-%m-%d %H:%M:%S"), defectstate = u'O',description = "bug description", reproduce = "do stuff, it breaks", resolutionid = self.r, userid = self.user, modifieduserid = self.user, assignedqa = self.user, assigneddev = self.user, assignedmgr = self.user)
+		self.d.save()
+
+	def testStr(self):
+		self.assertEquals(self.d.__str__(),self.d.pk)
+
+class defect2TestCase(unittest.TestCase):
+	def setUp(self):
+		self.usr = User.objects.create_user('rich2', 'rroslund@iit.edu', 'richpassword')
+		self.pr = Product.objects.create(name = 'awesome2', description = "awwwright",assignedqa=self.usr,assigneddev=self.usr,assignedmgr=self.usr)
+		self.re = Resolution.objects.create(name = "fixed bug2")
+		self.prv = ProductVersion.objects.create(version = '1.1',description = "the official release")
 		self.de = Defect.objects.create(productid = self.pr, projectversion=self.prv, postdate = strftime("%Y-%m-%d %H:%M:%S"), moddate = strftime("%Y-%m-%d %H:%M:%S"), defectstate = u'O',description = "bug description", reproduce = "do stuff, it breaks", resolutionid = self.re, userid = self.usr, modifieduserid = self.usr, assignedqa = self.usr, assigneddev = self.usr, assignedmgr = self.usr)
 		self.de.save()
 
-#	def testStr(self):
-#		self.assertEquals(self.de.__str__(),self.de.pk)
-#	def testGet_absolute_url(self):
-#		self.assertEquals(self.de.get_absolute_url(),'/defects/detail/'+str(self.de.pk))
-'''	def testDefect_states(self):
-		self.assertEquals(self.de.defectstate,u'O')
-		self.de.change_state(u'P')
-		self.assertEquals(self.de.defectstate,u'P')
-		self.de.change_state(u'V')
-		self.assertEquals(self.de.defectstate,u'V')
-		self.de.change_state(u'C')
-		self.assertEquals(self.de.defectstate,u'C')
-		self.de.change_state(u'B')
-		self.assertNotEquals(self.de.defectstate,u'B')
-'''
+	def testGet_absolute_url(self):
+		self.assertEquals(self.de.get_absolute_url(),'/defects/detail/'+str(self.de.pk))
+
 
 
 
