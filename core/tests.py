@@ -75,16 +75,3 @@ class defect2TestCase(unittest.TestCase):
 
 	def testGet_absolute_url(self):
 		self.assertEquals(self.de.get_absolute_url(),'/defects/detail/'+str(self.de.pk))
-
-
-
-
-
-
-
-
-
-
-
-
-
