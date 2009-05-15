@@ -9,10 +9,10 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-DATABASE_ENGINE = 'sqlite3'		# use for testing
-DATABASE_NAME = '/home/adam/sqlite/vadrware/'	# use for testing.  doesn't matter where you put it, it's a temp database that gets deleted
-#DATABASE_ENGINE = 'oracle'           # 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-#DATABASE_NAME = 'adamsora'           # Or path to database file if using sqlite3.
+#DATABASE_ENGINE = 'sqlite3'		# use for testing
+#DATABASE_NAME = '/home/adam/sqlite/vadrware/'	# use for testing.  doesn't matter where you put it, it's a temp database that gets deleted
+DATABASE_ENGINE = 'oracle'           # 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+DATABASE_NAME = 'adamsora'           # Or path to database file if using sqlite3.
 DATABASE_USER = 'akadzban'           # Not used with sqlite3.
 DATABASE_PASSWORD = 'adam123'        # Not used with sqlite3.
 DATABASE_HOST = ''                   # Set to empty string for localhost. Not used with sqlite3.
@@ -87,6 +87,5 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.admin',
     'django.contrib.comments',
-    'bugtracker.core',
-    'bugtracker.tests'
+    'bugtracker.core'
 )

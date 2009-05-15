@@ -5,6 +5,7 @@ from django.conf import settings
 from django.contrib.comments.models import Comment
 from bugtracker.core.models import UserProfile
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import *
 from django.views.generic.list_detail import *
 
 # Uncomment the next two lines to enable the admin:
@@ -26,9 +27,13 @@ urlpatterns = patterns('',
     (r'^app_media/(?P<path>.*)$', 'django.views.static.serve',
     {'document_root': settings.STATIC_DOC_ROOT}),
 
-    # authentication
+    # authentication and account management
     (r'^accounts/login/$', 'django.contrib.auth.views.login'),
     (r'^accounts/logout/$', 'django.contrib.auth.views.logout'),
+    (r'^accounts/password_reset/$', 'django.contrib.auth.views.password_reset'),
+    (r'^accounts/password_reset_done/$', 'django.contrib.auth.views.password_reset_done'),
+    (r'^accounts/password_reset_confirm/(?P<uidb36>[0-9A-Za-z]+)-(?P<token>.+)/$', 'django.contrib.auth.views.password_reset_confirm'),
+    (r'^accounts/password_reset_complete/$', 'django.contrib.auth.views.password_reset_complete'),
 
     # comments
     (r'^comments/', include('django.contrib.comments.urls')),
