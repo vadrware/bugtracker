@@ -14,13 +14,22 @@ class UserProfile (models.Model):
 
 # product model
 class Product (models.Model):
-    name = models.CharField( "Product Name", max_length = 100 )
-    currentversion = models.IntegerField( "Current Product Version" )
+    name = models.CharField( "Product Category Name", max_length = 100 )
+    description = models.TextField( "Description" )
     
     def __str__(self):
         return self.name
     def get_absolute_url(self):
         return "/%s/%s/%s" % ('products', 'detail', self.pk)
+
+class ProductVersion (models.Model):
+    version = models.CharField( "Version", max_length = 30 )
+    description = models.TextField( "Description" )
+
+    def __str__(self):
+        return self.version
+    def get_absolute_url(self):
+        return "/%s/%s/%s" % ('productversions', 'detail', self.pk)
 
 # defect resolution model
 class Resolution (models.Model):
@@ -39,17 +48,20 @@ class Defect (models.Model):
                 ( u'V', u'Verified' ),
                 ( u'C', u'Closed' )
         )
-    productid = models.ForeignKey( Product, verbose_name = "Product" )
-    projectversion = models.IntegerField( "Product Version" )
+    productid = models.ForeignKey( Product, verbose_name = "Product Category" )
+    projectversion = models.ForeignKey( ProductVersion, verbose_name = "Product Version" )
+#    projectversion = models.CharField( "Project Version", max_length = 30 )
     postdate = models.DateTimeField( "Post Date", blank = True )
     moddate = models.DateTimeField( "Modified Date", blank = True )
     defectstate = models.CharField( "Defect State", max_length = 1, choices = defect_states, default = u'O' )
     description = models.TextField( "Short Description" )
-    reproduce = models.TextField( "Steps to Reproduce" )
+    reproduce = models.TextField( "Steps to Reproduce", blank = True )
     resolutionid = models.ForeignKey( Resolution, verbose_name = "Resolution" )
     userid = models.ForeignKey( User, verbose_name = "Created By", related_name = "Created By" )
+    modifieduserid = models.ForeignKey( User, verbose_name = "Modified By", related_name = "Modified By" )
     assignedqa = models.ForeignKey( User, verbose_name = "Assigned QA", related_name = "Assigned QA" )
     assigneddev = models.ForeignKey( User, verbose_name = "Assigned Developer", related_name = "Assigned Developer" )
+    assignedmgr = models.ForeignKey( User, verbose_name = "Assigned Manager", related_name = "Assigned Manager" )
 
     def save(self):
         if self.postdate == None:
@@ -82,10 +94,10 @@ class DefectForm(forms.ModelForm):
         self.fields["assigneddev"].queryset = User.objects.filter(groups__name = 'Developers')
         
     def clean_defectstate(self): 
-    	# make sure new defects start in open state   
-    	if self.cleaned_data.get('defectstate') != u'O' and self.instance.pk == u'None':
+        # make sure new defects start in open state   
+        if self.cleaned_data.get('defectstate') != u'O' and self.instance.pk == u'None':
             raise forms.ValidationError('New defects must start in Open state.')
-           
+
         if self.instance.pk == u'None' or (self.instance.pk != u'None' and self.cleaned_data.get('defectstate') == self.instance.defectstate):
            return self.cleaned_data.get('defectstate')
 

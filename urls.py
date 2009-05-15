@@ -24,7 +24,7 @@ urlpatterns = patterns('',
 
     # static content
     (r'^app_media/(?P<path>.*)$', 'django.views.static.serve',
-	{'document_root': settings.STATIC_DOC_ROOT}),
+    {'document_root': settings.STATIC_DOC_ROOT}),
 
     # authentication
     (r'^accounts/login/$', 'django.contrib.auth.views.login'),
@@ -36,6 +36,7 @@ urlpatterns = patterns('',
     # bugtracker core
     (r'^defects', include('bugtracker.core.urls.defects')),
     (r'^products', include('bugtracker.core.urls.products')),
+    (r'^productversions', include('bugtracker.core.urls.productversions')),
     (r'^resolutions', include('bugtracker.core.urls.resolutions')),
     (r'^accounts', include('bugtracker.core.urls.accounts')),
 

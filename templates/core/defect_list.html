@@ -13,9 +13,9 @@
 	<tr>
 		<th></th>
 		<th>Defect #</th>
-        <th>Product</th>
-        <th>Product Version</th>
-        <th width="200">Reproduction Steps</th>
+        <th>Product Category</th>
+        <th>Version</th>
+        <th width="200">Short Description</th>
         <th>State</th>
         <th>Resolution</th>
 	</tr>
@@ -31,8 +31,8 @@
 		</td>
 		<td><a href="/defects/detail/{{ object.pk }}">{{ object.pk }}</a></td>
 		<td><a href="/products/detail/{{ object.productid.pk }}">{{ object.productid }}</a></td>
-		<td>{{ object.projectversion }}</td>
-		<td>{{ object.reproduce }}</td>
+		<td><a href="/products/detail/{{ object.projectversion.pk }}">{{ object.projectversion }}</td>
+		<td>{{ object.description }}</td>
 		<td>{{ object.get_defectstate_display }}</td>
 		<td><a href="/resolutions/detail/{{ object.resolutionid.pk }}">{{ object.resolutionid }}</a></td>
 	</tr>	
