@@ -11,6 +11,9 @@ from time import strftime
 class UserProfile (models.Model):
 	userid = models.ForeignKey( User, unique = True )
 	active = models.BooleanField( "Active" ) 
+	
+	def __str__(self):
+		return self.userid.username
 
 # product model
 class Product (models.Model):
